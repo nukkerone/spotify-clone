@@ -2,9 +2,10 @@ import { useEffect } from "react"
 import { Auth } from "@supabase/auth-ui-react"
 import Modal from "./modal"
 import { useSessionContext } from "@supabase/auth-helpers-react"
-import { ThemeSupa } from '@supabase/auth-ui-shared' 
+import { ThemeSupa } from '@supabase/auth-ui-shared'
 import useAuthModal from "@/hooks/useAuthModal"
 import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 const AuthModal = () => {
   const { supabaseClient } = useSessionContext();
@@ -13,7 +14,10 @@ const AuthModal = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (session) { router.refresh() }
+    if (session) {
+      router.refresh();
+      toast.success('You are now signed in')
+    }
     onClose();
   }, [session, router, onClose]);
 
@@ -28,7 +32,7 @@ const AuthModal = () => {
           }
         }
       }
-    }}/>
+    }} />
   </Modal>
 }
 

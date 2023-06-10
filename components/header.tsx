@@ -11,6 +11,7 @@ import useAuthModal from "@/hooks/useAuthModal"
 import { useUser } from "@/hooks/useUser"
 import { useSessionContext } from "@supabase/auth-helpers-react"
 import { FaUserAlt } from "react-icons/fa"
+import toast from "react-hot-toast"
 
 type HeaderProps = {
   className?: string,
@@ -26,8 +27,12 @@ const Header: React.FC<HeaderProps> = ({ className, children }) => {
 
   const onLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
-    if (error) { console.error(error) }
-    router.refresh();
+    if (error) { 
+      toast.error(error.message);
+    } else {
+      toast.success('Logged out successfully');
+      router.refresh();
+    }
   }
 
   return <header
