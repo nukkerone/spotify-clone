@@ -7,6 +7,10 @@ import { HiHome } from "react-icons/hi"
 import { BiSearch } from "react-icons/bi"
 import Button from "./button"
 import ListItem from "./list-item"
+import useAuthModal from "@/hooks/useAuthModal"
+import { useUser } from "@/hooks/useUser"
+import { useSessionContext } from "@supabase/auth-helpers-react"
+import { FaUserAlt } from "react-icons/fa"
 
 type HeaderProps = {
   className?: string,
@@ -16,6 +20,15 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ className, children }) => {
 
   const router = useRouter()
+  const { onOpen: onAuthModalOpen } = useAuthModal();
+  const { supabaseClient } = useSessionContext();
+  const { user } = useUser();
+
+  const onLogout = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) { console.error(error) }
+    router.refresh();
+  }
 
   return <header
     className={twMerge(`
@@ -26,33 +39,47 @@ const Header: React.FC<HeaderProps> = ({ className, children }) => {
     `, className)}
   >
 
-    <div className="flex gap-x-2 mb-4">
-      <button className="hidden md:flex items-center justify-center p-2 bg-black rounded-full hover:opacity-75 transition" onClick={() => router.back()}>
-        <RxCaretLeft size="25" className="text-white" />
-      </button>
+    <div className="flex">
+      <div className="flex gap-x-2 mb-4">
+        <button className="hidden md:flex aspect-square items-center justify-center p-2 bg-black rounded-full hover:opacity-75 transition" onClick={() => router.back()}>
+          <RxCaretLeft size="25" className="text-white" />
+        </button>
 
-      <button className="hidden md:flex items-center justify-center p-2 bg-black rounded-full hover:opacity-75 transition" onClick={() => router.forward()}>
-        <RxCaretRight size="25" className="text-white" />
-      </button>
-    </div>
+        <button className="hidden md:flex aspect-square items-center justify-center p-2 bg-black rounded-full hover:opacity-75 transition" onClick={() => router.forward()}>
+          <RxCaretRight size="25" className="text-white" />
+        </button>
+      </div>
 
-    <div className="flex md:hidden gap-x-2 mb-4">
-      <button className="flex items-center justify-center p-2 bg-white rounded-full hover:opacity-75 transition" onClick={() => router.back()}>
-        <HiHome size="20" className="text-black" />
-      </button>
+      <div className="flex gap-x-2 mb-4 flex-1">
+        <button className="flex md:hidden aspect-square items-center justify-center p-2 bg-white rounded-full hover:opacity-75 transition" onClick={() => router.back()}>
+          <HiHome size="25" className="text-black" />
+        </button>
 
-      <button className="flex items-center justify-center p-2 bg-white rounded-full hover:opacity-75 transition" onClick={() => router.forward()}>
-        <BiSearch size="20" className="text-black" />
-      </button>
+        <button className="flex md:hidden aspect-square items-center justify-center p-2 bg-white rounded-full hover:opacity-75 transition" onClick={() => router.forward()}>
+          <BiSearch size="25" className="text-black" />
+        </button>
 
-      <div className="flex justify-between items-center gap-x-4 ml-auto">
-        <Button className="flex-nowrap bg-transparent text-neutral-300">Sign up</Button>
-        <Button className="bg-white px-6 py-2">Log in</Button>
+        <div className="flex justify-between items-center gap-x-4 ml-auto">
+          {
+            user && <>
+              <Button className="bg-white px-6 py-2" onClick={onLogout}>Log out</Button>
+              <Button className="bg-white" onClick={() => router.push('/account')}>
+                <FaUserAlt size="20" className="text-black" />
+              </Button>
+            </>
+          }
+          {
+            !user && <>
+              <Button className="flex-nowrap bg-transparent text-neutral-300" onClick={onAuthModalOpen}>Sign up</Button>
+              <Button className="bg-white px-6 py-2" onClick={onAuthModalOpen}>Log in</Button>
+            </>
+          }
+        </div>
       </div>
     </div>
 
     <div className="flex mb-4 flex-col">
-      { children && <h1 className="text-white text-3xl font-semibold">{ children }</h1> }
+      {children && <h1 className="text-white text-3xl font-semibold">{children}</h1>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 mt-4">
         <ListItem image="/images/liked.png" name="Liked songs" href="/"></ListItem>

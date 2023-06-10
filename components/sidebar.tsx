@@ -16,8 +16,7 @@ const Sidebar = ({ children }: SidebarProps) => {
 
   const pathname = usePathname();
   const user = useUser();
-
-  console.log('User ', user);
+  
 
   const routes = useMemo(() => [
     { 
