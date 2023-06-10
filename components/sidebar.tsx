@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useMemo } from "react";
 import Box from "./box";
 import SidebarItem from "./sidebar-item";
+import { useUser } from "@/hooks/useUser";
 
 type SidebarProps = {
   children: React.ReactNode
@@ -14,6 +15,9 @@ type SidebarProps = {
 const Sidebar = ({ children }: SidebarProps) => {
 
   const pathname = usePathname();
+  const user = useUser();
+
+  console.log('User ', user);
 
   const routes = useMemo(() => [
     { 
