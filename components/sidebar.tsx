@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import Box from "./box";
 import SidebarItem from "./sidebar-item";
 import { useUser } from "@/hooks/useUser";
+import Library from "./library";
 
 type SidebarProps = {
   children: React.ReactNode
@@ -48,8 +49,8 @@ const Sidebar = ({ children }: SidebarProps) => {
         { routes.map((item) => <SidebarItem key={item.label} {...item}></SidebarItem> )}
       </Box>
 
-      <Box className="h-full p-2">
-        Below
+      <Box className="flex h-full p-2">
+        <Library />
       </Box>
     </div>
     <main className="h-full p-2 flex-1 overflow-y-auto">{ children }</main>

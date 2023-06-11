@@ -2,6 +2,7 @@
 
 import AuthModal from '@/components/auth-modal'
 import Modal from '@/components/modal'
+import UploadModal from "@/components/upload-modal"
 import { useState, useEffect } from 'react'
 
 const ModalProvider = () => {
@@ -13,7 +14,10 @@ const ModalProvider = () => {
 
   if (!isMounted) return null
 
-  return <AuthModal />
+  return <>
+    <AuthModal />
+    <UploadModal />
+  </>
 }
 
 export default ModalProvider
