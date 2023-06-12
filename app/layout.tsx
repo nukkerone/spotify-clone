@@ -6,6 +6,7 @@ import { UserContextProvider } from "@/hooks/useUser"
 import ModalProvider from "@/providers/modal"
 import ToasterProvider from "@/providers/toaster"
 import getSongsByUID from "@/actions/get-songs-by-uid"
+import Player from "@/components/player"
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
           <UserContextProvider>
             <ModalProvider />
             <Sidebar songs={songs}>{children}</Sidebar>
+            <Player />
           </UserContextProvider>
         </SupabaseProvider>
       </body>
