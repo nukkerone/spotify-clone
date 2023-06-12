@@ -1,6 +1,6 @@
 "use client";
 
-import { Song } from "@/types/song";
+import { Song } from "../../../types/types";
 import MediaItem from "@/components/media-item";
 
 interface SearchContentProps {

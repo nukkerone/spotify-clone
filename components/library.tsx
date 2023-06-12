@@ -49,7 +49,7 @@ const Library: React.FC<LibraryProps> = ({ songs }) => {
       </div>
       <hr className="border-neutral-400" />
       <div className="flex flex-col gap-y-2 mt-4 px-3">
-        { songs.map((song) => <MediaItem data={song} />)}
+        { songs.map((song) => <MediaItem data={song} key={song.id} />)}
       </div>
     </div>
   );
