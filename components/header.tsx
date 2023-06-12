@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ className, children }) => {
         <div className="flex justify-between items-center gap-x-4 ml-auto">
           {
             user && <>
-              <Button className="bg-white px-6 py-2" onClick={onLogout}>Log out</Button>
+              <Button className="bg-white px-6 py-2 whitespace-nowrap" onClick={onLogout}>Log out</Button>
               <Button className="bg-white" onClick={() => router.push('/account')}>
                 <FaUserAlt size="20" className="text-black" />
               </Button>
@@ -75,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ className, children }) => {
           }
           {
             !user && <>
-              <Button className="flex-nowrap bg-transparent text-neutral-300" onClick={onAuthModalOpen}>Sign up</Button>
+              <Button className="flex-nowrap bg-transparent text-neutral-300 whitespace-nowrap" onClick={onAuthModalOpen}>Sign up</Button>
               <Button className="bg-white px-6 py-2" onClick={onAuthModalOpen}>Log in</Button>
             </>
           }

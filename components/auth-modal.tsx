@@ -22,7 +22,7 @@ const AuthModal = () => {
   }, [session, router, onClose]);
 
   return <Modal title="Sign In" description="Enter your credentials and sign in" isOpen={isOpen} onChange={onClose}>
-    <Auth theme="dark" supabaseClient={supabaseClient} magicLink appearance={{
+    <Auth theme="dark" supabaseClient={supabaseClient} providers={[]} magicLink appearance={{
       theme: ThemeSupa,
       variables: {
         default: {
