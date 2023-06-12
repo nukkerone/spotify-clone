@@ -89,13 +89,6 @@ const Header: React.FC<HeaderProps> = ({ className, children }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 mt-4">
         <ListItem image="/images/liked.png" name="Liked songs" href="/"></ListItem>
       </div>
-
-      <div className="flex flex-col">
-        <h2 className="text-white text-xl font-semibold mt-8">Newest songs</h2>
-        <div>
-          List of songs!
-        </div>
-      </div>
     </div>
 
   </header>

@@ -8,12 +8,14 @@ import Box from "./box";
 import SidebarItem from "./sidebar-item";
 import { useUser } from "@/hooks/useUser";
 import Library from "./library";
+import { Song } from '@/types/types';
 
 type SidebarProps = {
-  children: React.ReactNode
+  children: React.ReactNode,
+  songs: Song[]
 }
 
-const Sidebar = ({ children }: SidebarProps) => {
+const Sidebar = ({ children, songs }: SidebarProps) => {
 
   const pathname = usePathname();
   const user = useUser();
@@ -50,7 +52,7 @@ const Sidebar = ({ children }: SidebarProps) => {
       </Box>
 
       <Box className="flex h-full p-2">
-        <Library />
+        <Library songs={songs} />
       </Box>
     </div>
     <main className="h-full p-2 flex-1 overflow-y-auto">{ children }</main>
