@@ -1,7 +1,7 @@
 'use client'
 
 import AuthModal from '@/components/auth-modal'
-import Modal from '@/components/modal'
+import PlaylistCreationModal from "@/components/playlist-creation-modal"
 import UploadModal from "@/components/upload-modal"
 import { useState, useEffect } from 'react'
 
@@ -17,6 +17,7 @@ const ModalProvider = () => {
   return <>
     <AuthModal />
     <UploadModal />
+    <PlaylistCreationModal />
   </>
 }
 

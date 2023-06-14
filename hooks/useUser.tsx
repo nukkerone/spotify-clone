@@ -34,7 +34,8 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
   const [subscription, setSubscription] = useState<Subscription | null>(null)
 
   const getUserDetails = () => supabaseClient.from('users').select('*').single()
-  const getSubscription = () => supabaseClient.from('subscriptions').select('*, prices(*, products(*))').in('status', ['trialing', 'active']).single()
+  // const getSubscription = () => supabaseClient.from('subscriptions').select('*, prices(*, products(*))').in('status', ['trialing', 'active']).single()
+  const getSubscription = () => Promise.resolve()
 
   useEffect(() => {
     // We sync up the user details and subscription with the user session.
@@ -44,9 +45,9 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
         if (userDetailsPromise.statusText === 'fulfilled') {
           setUserDetails(userDetailsPromise.data as UserDetails);
         }
-        if (subscriptionPromise.statusText === 'fulfilled') {
+        /* if (subscriptionPromise.statusText === 'fulfilled') {
           setSubscription(subscriptionPromise.data as Subscription);
-        }
+        } */
         setIsLoadingData(false)
       })
     } else if (!user && !isLoadingData && !isLoadingUser) {
