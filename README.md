@@ -7,5 +7,6 @@ This is a spotify like application meant as a side project to apply different te
   - /liked: Client side fetching
     - Liked Content (similar to search results)
   - Like button
+    - /api/like
     - Search page
     - Liked content
