@@ -15,17 +15,14 @@ import usePlaylists from "@/hooks/usePlaylists"
 import { Playlist, Song } from '@/types/types'
 
 const PlaylistCreationModal = () => {
-  const { supabaseClient } = useSessionContext()
   const playlistCreationModal = usePlaylistCreationModal()
-  const { session } = useSessionContext()
-  const router = useRouter()
   const [activeTab, setActiveTab] = useState<'selection' | 'creation'>('selection')
   const title = activeTab === 'creation' ? 'Create a new playlist' : 'Select a playlist'
   const description = activeTab === 'creation' ? 'Create your own playlist' : 'Choose from an existing playlist'
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   
-  const { playlists, create: createPlaylists, isSaving } = usePlaylists()
+  const { playlists, create: createPlaylists, isSaving, addSong } = usePlaylists()
   const [filteredPlaylists, setFilteredPlaylists] = useState<Playlist[]>(playlists)
 
   const {
@@ -58,28 +55,33 @@ const PlaylistCreationModal = () => {
     }, 300)
   }
 
-  const onPlaylistSelected = (id: string) => {
-    console.log('selected', id)
-    playlistCreationModal.onClose()
+  const onPlaylistSelected = async (playlistId: string) => {
+    if (!playlistCreationModal.songId) { return }
+    await addSong(playlistId, playlistCreationModal.songId)
+    reset();
+    toast.success('Song added to the playlist')
+    setTimeout(() => {
+      playlistCreationModal.onClose();
+    }, 300)
   }
 
   useEffect(() => {
     if (activeTab === 'selection') {
       // Fetch playlists, update state
       if (searchQuery.length > 0) {
-        setFilteredPlaylists(playlists.filter(p => p.title.indexOf(searchQuery) >= 0))
+        setFilteredPlaylists(playlists.filter(p => p.title.toLowerCase().indexOf(searchQuery.toLowerCase()) >= 0))
       } else {
         setFilteredPlaylists(playlists);
       }
     }
-  }, [searchQuery, activeTab]);
+  }, [searchQuery, activeTab, playlists]);
 
-  return <Modal title={title} description={description} isOpen={playlistCreationModal.isOpen} onChange={playlistCreationModal.onClose}>
+  return <Modal title={title} description={description} isOpen={playlistCreationModal.isOpen} onChange={onChange}>
     { activeTab === 'selection' && <form>
       <SearchInputWithCallback onChange={setSearchQuery} />
       
       <div className="mt-4">
-        <PlaylistItems playlists={playlists} onSelected={onPlaylistSelected}/>
+        <PlaylistItems playlists={filteredPlaylists} onSelected={onPlaylistSelected}/>
       </div>
 
       <div className="flex items-center mt-4">

@@ -10,19 +10,8 @@ type PlaylistItemsProps = {
 
 const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, onSelected }) => {
 
-  const loadImage = async (path: string, bucket = 'images') => {
-    const supabaseClient = useSupabaseClient();
-  
-    const { data: imageData } = supabaseClient
-      .storage
-      .from(bucket)
-      .getPublicUrl(path);
-
-    return imageData
-  }
-
   return <div className="flex flex-col gap-y-4">
-    {playlists.map((playlist) => <PlaylistItem playlist={playlist} onSelected={() => {}} />)}
+    {playlists.map((playlist) => <PlaylistItem playlist={playlist} onSelected={onSelected} />)}
   </div>
 }
 
@@ -35,28 +24,25 @@ const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlist, onSelected }) => 
   const imageUrl = useLoadImage(playlist, 'playlist_images');
 
   return <div key={playlist.id} className="flex items-center gap-x-4">
-  <button
-    className="
-      relative 
-      rounded-md 
-      min-h-[44px] 
-      min-w-[44px] 
-      overflow-hidden
-    "
-    onClick={() => onSelected(playlist.id)}
-  >
-    <Image
-      fill
-      src={imageUrl!}
-      alt="MediaItem"
-      className="object-cover"
-    />
-  </button>
-  <div className="flex flex-col">
-    <div className="font-bold">{playlist.title}</div>
-    <div className="text-sm">{playlist.songs.length} songs</div>
+    <button
+      className="flex gap-x-4"
+      onClick={() => onSelected(playlist.id)}
+    >
+      <div className="relative rounded-md h-[44px] w-[44px] overflow-hidden">
+        <Image
+          fill
+          src={imageUrl!}
+          alt="MediaItem"
+          className="object-cover"
+        />
+      </div>
+
+      <div className="flex flex-col text-left">
+        <div className="font-bold">{playlist.title}</div>
+        <div className="text-sm">{playlist.songs.length} songs</div>
+      </div>
+    </button>
   </div>
-</div>
 }
 
 export default PlaylistItems

@@ -85,10 +85,22 @@ const usePlaylists = () => {
 
     fetchPlaylists();
     setIsSaving(false);
-    
   }
 
-  return { playlists: playListStore.playlists, create, isSaving }
+  const addSong = async (playlistId: string, songId: string) => {
+    setIsSaving(true);
+    const { error: supabaseError } = await supabaseClient
+      .from('playlist_songs')
+      .insert({
+        playlist_id: playlistId,
+        song_id: songId
+      });
+
+    setIsSaving(false);
+    fetchPlaylists();
+  }
+
+  return { playlists: playListStore.playlists, create, isSaving, addSong }
 }
 
 export default usePlaylists
