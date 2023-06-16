@@ -11,7 +11,7 @@ type PlaylistItemsProps = {
 const PlaylistItems: React.FC<PlaylistItemsProps> = ({ playlists, onSelected }) => {
 
   return <div className="flex flex-col gap-y-4">
-    {playlists.map((playlist) => <PlaylistItem playlist={playlist} onSelected={onSelected} />)}
+    {playlists.map((playlist) => <PlaylistItem key={playlist.id} playlist={playlist} onSelected={onSelected} />)}
   </div>
 }
 
@@ -23,7 +23,7 @@ type PlaylistItemProps = {
 const PlaylistItem: React.FC<PlaylistItemProps> = ({ playlist, onSelected }) => {
   const imageUrl = useLoadImage(playlist, 'playlist_images');
 
-  return <div key={playlist.id} className="flex items-center gap-x-4">
+  return <div className="flex items-center gap-x-4">
     <button
       className="flex gap-x-4"
       onClick={() => onSelected(playlist.id)}

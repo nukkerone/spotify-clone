@@ -2,8 +2,9 @@
 
 import { Subscription, UserDetails } from "@/types/types";
 import { User } from "@supabase/auth-helpers-nextjs";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useSessionContext, useUser as useSupabaseUser } from "@supabase/auth-helpers-react";
+import { useDeepCompareEffectNoCheck } from "use-deep-compare-effect";
 
 type UserContextType = {
   accessToken: string | null;
@@ -26,7 +27,8 @@ type UserContextProviderProps = {
  * @param props 
  */
 export const UserContextProvider = (props: UserContextProviderProps) => {
-  const user = useSupabaseUser()
+  const supabaseUser = useSupabaseUser()
+  const [user, setUser] = useState<User | null>(supabaseUser)
   const { session, isLoading: isLoadingUser, supabaseClient } = useSessionContext();
   const accessToken = session?.access_token || null
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null)
@@ -36,6 +38,11 @@ export const UserContextProvider = (props: UserContextProviderProps) => {
   const getUserDetails = () => supabaseClient.from('users').select('*').single()
   // const getSubscription = () => supabaseClient.from('subscriptions').select('*, prices(*, products(*))').in('status', ['trialing', 'active']).single()
   const getSubscription = () => Promise.resolve()
+
+  // I use this hook to avoid supabase user object from changing and triggering a re-render due to Object.is comparison.
+  useEffect(() => {
+    setUser(supabaseUser)
+  }, [JSON.stringify(supabaseUser)]);
 
   useEffect(() => {
     // We sync up the user details and subscription with the user session.

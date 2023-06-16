@@ -20,12 +20,14 @@ const usePlaylistStore = create<PlaylistStore>((set) => ({
 const usePlaylists = () => {
   const playListStore = usePlaylistStore()
   const { supabaseClient } = useSessionContext()
-  const { user } = useUser()
+  const { user, isLoading } = useUser()
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    fetchPlaylists();
-  }, [user])
+    if (!isLoading) {
+      fetchPlaylists();
+    }
+  }, [user, isLoading])
 
   const fetchPlaylists = async () => {
     if (user) {

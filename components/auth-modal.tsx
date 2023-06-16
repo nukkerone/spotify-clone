@@ -14,10 +14,6 @@ const AuthModal = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (session) {
-      router.refresh();
-      toast.success('You are now signed in')
-    }
     onClose();
   }, [session, router, onClose]);
 
