@@ -5,7 +5,6 @@ import Image from "next/image";
 
 const Liked = async () => {
   const songs = await getLikedSongs();
-  console.log('Liked songs ', songs);
 
   return (
     <div

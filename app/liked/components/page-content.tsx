@@ -1,3 +1,6 @@
+'use client'
+
+import LikeButton from "@/components/like-button";
 import MediaItem from "@/components/media-item";
 import { Song } from "@/types/types";
 
@@ -40,6 +43,7 @@ const PageContent: React.FC<PageContentProps> = ({
               data={song}
             />
           </div>
+          <LikeButton songId={song.id} />
         </div>
       ))}
     </div>

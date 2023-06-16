@@ -4,7 +4,6 @@ import { Subscription, UserDetails } from "@/types/types";
 import { User } from "@supabase/auth-helpers-nextjs";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useSessionContext, useUser as useSupabaseUser } from "@supabase/auth-helpers-react";
-import { useDeepCompareEffectNoCheck } from "use-deep-compare-effect";
 
 type UserContextType = {
   accessToken: string | null;
